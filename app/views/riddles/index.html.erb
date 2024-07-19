@@ -1,2 +1,4 @@
 <h1>Riddle</h1>
-<p>Hello World</p>
+<p>Username: <%= current_user.username %></p>
+<%= link_to "Signup", signup_path %>
+<%= link_to "Logout", logout_path, data: { turbo_method: :delete }%>

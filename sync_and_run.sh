@@ -8,6 +8,15 @@ else
   exit 1
 fi
 
+# Set up ssh-agent to avoid repeated queries to password
+if ps -p $SSH_AGENT_PID > /dev/null
+then
+   echo "ssh-agent is already running"
+else
+  eval "$(ssh-agent)"
+  ssh-add
+fi
+
 # Command line option to only sync
 sync_only=false
 
@@ -23,10 +32,6 @@ while getopts "s" opt; do
       ;;
   esac
 done
-
-# Set up ssh-agent to avoid repeated queries to password
-eval "$(ssh-agent)"
-ssh-add
 
 # Sync directories
 unison "$SOURCE_DIR" "ssh://$SSH_HOST$DESTINATION_DIR" \
