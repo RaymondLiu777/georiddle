@@ -1,4 +1,57 @@
 <h1>Riddle</h1>
 <p>Username: <%= current_user.username %></p>
+
+<% if @location.present? %>
+<strong>Location:</strong> 
+<p>Latitude: <%= @location[:latitude]%></p>
+<p>Longitude: <%= @location[:longitude]%></p>
+<p>Address: <%= @location[:address]%></p>
+<% end %>
+
+<button id="send-location-btn">Send My Location</button>
+
+<form id="location-form" action="<%= request.original_url %>" method="get" style="display: none;">
+  <input type="hidden" name="latitude" id="latitude" />
+  <input type="hidden" name="longitude" id="longitude" />
+</form>
+
+<br>
+
 <%= link_to "Signup", signup_path %>
 <%= link_to "Logout", logout_path, data: { turbo_method: :delete }%>
+
+<script>
+  options = {
+    enableHighAccuracy: true,
+    timeout: 10000,
+    maximumAge: 0,
+  };
+
+  function success(position) {
+    const latitude = position.coords.latitude;
+    const longitude = position.coords.longitude;
+
+    // Set the form inputs with the location data
+    document.getElementById('latitude').value = latitude;
+    document.getElementById('longitude').value = longitude;
+
+    // Submit the form
+    document.getElementById('location-form').submit();
+  }
+
+  function error(err) {
+    document.getElementById('send-location-btn').disabled = false
+    console.warn(`ERROR(${err.code}): ${err.message}`);
+  }
+
+  document.addEventListener("turbo:load", function() {
+    document.getElementById('send-location-btn')?.addEventListener('click', function(event) {
+      event.target.disabled = true
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(success, error, options);
+      } else {
+        console.log("Geolocation is not supported by this browser.");
+      }
+    });
+  });
+</script>

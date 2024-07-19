@@ -1,20 +1,15 @@
 #!/bin/bash
 
+# Run to avoid repeated entering in your ssh-key
+# eval "$(ssh-agent)"
+# ssh-add
+
 # Source the config file
 if [ -f config.sh ]; then
   source config.sh
 else
   echo "Configuration file not found!"
   exit 1
-fi
-
-# Set up ssh-agent to avoid repeated queries to password
-if ps -p $SSH_AGENT_PID > /dev/null
-then
-   echo "ssh-agent is already running"
-else
-  eval "$(ssh-agent)"
-  ssh-add
 fi
 
 # Command line option to only sync
