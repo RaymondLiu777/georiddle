@@ -9,8 +9,9 @@ class SessionsController < ApplicationController
       flash[:notice] = "Logged in successfully."
       redirect_to root_path
     else
+      puts "Failed Login"
       flash.now[:alert] = "There was something wrong with your login details."
-      render 'new'
+      render :new, status: :bad_request
     end
   end
 
