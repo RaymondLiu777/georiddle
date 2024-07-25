@@ -1,5 +1,17 @@
 <h1>Riddle</h1>
-<p>Username: <%= current_user.username %></p>
+<% if session[:account_id].present? %>
+  <p>Username: <%= current_user.username %></p>
+<% else %>
+  <p>Not Logged in</p>
+<% end %>
+
+<ul>
+  <% @riddles.each do |riddle| %>
+    <% if riddle.visibility == "public" %>
+      <li><%= link_to riddle.title, riddle %></li>
+    <% end %>
+  <% end %>
+</ul>
 
 <% if @location.present? %>
 <strong>Location:</strong> 
@@ -18,6 +30,7 @@
 <br>
 
 <%= link_to "Signup", signup_path %>
+<%= link_to "Login", login_path %>
 <%= link_to "Logout", logout_path, data: { turbo_method: :delete }%>
 
 <script>

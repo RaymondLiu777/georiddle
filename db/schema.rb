@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_07_20_003023) do
+ActiveRecord::Schema[7.1].define(version: 2024_07_25_215740) do
   create_table "accounts", force: :cascade do |t|
     t.string "username"
     t.string "password_digest"
@@ -24,6 +24,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_20_003023) do
     t.string "visibility"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "title"
     t.index ["account_id"], name: "index_riddles_on_account_id"
   end
 
