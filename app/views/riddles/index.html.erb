@@ -30,8 +30,11 @@
 <br>
 
 <%= link_to "Signup", signup_path %>
-<%= link_to "Login", login_path %>
-<%= link_to "Logout", logout_path, data: { turbo_method: :delete }%>
+<% if !session[:account_id].present? %>
+  <%= link_to "Login", login_path %>
+<% else %>
+  <%= link_to "Logout", logout_path, data: { turbo_method: :delete }%>
+<% end %>
 
 <script>
   options = {
